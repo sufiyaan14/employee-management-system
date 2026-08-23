@@ -10,12 +10,13 @@ import Dashboard from "./pages/Dashboard";
 import Employees from "./pages/Employees";
 import Settings from "./pages/Settings";
 
-function App() {
+const API_BASE_URL = import.meta.env.VITE_API_BASE;
 
+function App() {
   const [employees, setEmployees] = useState([]);
 
   async function fetchEmployees() {
-    const response = await fetch("http://localhost:8000/employees");
+    const response = await fetch(`${API_BASE_URL}/employees`);
     const data = await response.json();
     setEmployees(data);
   }
@@ -25,8 +26,7 @@ function App() {
   }, []);
 
   async function addEmployee(employee) {
-
-    await fetch("http://localhost:8000/employees", {
+    await fetch(`${API_BASE_URL}/employees`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,8 +38,7 @@ function App() {
   }
 
   async function deleteEmployee(id) {
-
-    await fetch(`http://localhost:8000/employees/${id}`, {
+    await fetch(`${API_BASE_URL}/employees/${id}`, {
       method: "DELETE",
     });
 
@@ -51,13 +50,10 @@ function App() {
       <Navbar />
 
       <div className="container">
-
         <Sidebar />
 
         <div className="content">
-
           <Routes>
-
             <Route path="/" element={<Dashboard />} />
 
             <Route
@@ -72,11 +68,8 @@ function App() {
             />
 
             <Route path="/settings" element={<Settings />} />
-
           </Routes>
-
         </div>
-
       </div>
     </>
   );
